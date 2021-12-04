@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Cadastrar Fornecedor</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/stylesheet.css}" />
+<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+</head>
+<body>
+    <form class="container">
+        <div class="form">
+            <label class="col-sm-12 px-5 h6">Cadastro de fornecedor</label>
+            <div class="col-sm-12 row ">
+                <div class="col-sm-5">
+                    <label name="code">Código:</label><input type="text" name="code" id="code" class="ml-5"></input>
+                </div>
+                <div class="col-sm-7 row">
+                    <label name="dataCadastro">Data do cadastro:</label><input type="date" id="dataCadastro" name="dataCadastro" class="ml-5"/>
+                </div>
+            </div>
+            <div class="col-sm-12 row">
+                <label name="code" class="col-2">Tipo pessoa:</label>
+                <select name="personType" class="ml-5" id="personType">
+                    <option value="Juridica">Jurídica</option>
+                    <option value="Fisica" selected>Física</option>
+                </select>
+            </div>    
+            <div class="col-sm-12 row">
+                <label name="FantasyName" class="col-2"> Nome fantasia:</label><input type="text" name="FantasyName" id="FantasyName" class="col-9 ml-3"/>
+            </div>
+            <div class="col-sm-12 row">
+                <label name="corporateName" class="col-2 text-left">Razão social:</label><input type="text" name="corporateName" id="corporateName" class="col-9 ml-3"/>
+            </div>
+            <div class="col-sm-12 row">
+                <label name="address" class="col-2 text-left">Endereço:</label><input type="text" name="address" id="address" class="col-9 ml-3"/>
+            </div>
+            <div class="col-sm-12 row">
+                <label name="complement" class="col-2">Complemento:</label><input type="text" name="complement" id="complement" class="col-9 ml-3"/>
+            </div>
+            <div class="col-sm-12 row">
+                <label name="cep" class="col-2">CEP:</label><input type="text" name="cep" id="cep" class="ml-3"/>
+            </div>
+            <div class="col-sm-12 row">
+                <label name="telephone" class="col-2">Telefone:</label><input type="text" name="telephone" id="telephone" class="ml-3"/>
+            </div>
+            <div class="col-sm-12 row">
+                <label name="fax" class="col-2">Fax:</label><input type="text" name="fax" id="fax" class="ml-3"/>
+            </div>
+            <div class="col-sm-12 row">
+                <label name="celphone" class="col-2">Celular:</label><input type="text" name="celphone" id="celphone" class="ml-3"/>
+            </div>
+            <div class="col-sm-12 row">
+                <label name="contact" class="col-2">Contato:</label><input type="text" name="contact" id="contact" class="col-9 ml-3"/>
+            </div>
+            <div class="col-sm-12 row">
+                <label name="emailContact" class="col-2">Email contato:</label><input type="text" name="emailContact" id="emailContact" class="col-9 ml-3"/>
+            </div>
+            <div class="col-sm-12 row">
+                <label name="email" class="col-2">E-mail:</label><input type="text" name="email" id="email" class="col-9 ml-3"/>
+            </div>
+            <div class="col-sm-12 row">
+                <label name="city" class="col-2">Cidade:</label><input type="text" name="city" id="city" class="col-9 ml-3"/>
+            </div>
+            <div class="col-sm-12 row">
+                <label name="district" class="col-2">Bairro:</label><input type="text" name="district" id="district" class="col-9 ml-3"/>
+            </div>
+            <div class="col-sm-12 row">
+                <label name="filial" class="col-2">Filial:</label><input type="text" name="filial" id="filial" class="col-9 ml-3"/>
+            </div>
+            <div class="col-sm-12 row">
+                <label name="observation" class="col-2">Observação:</label><input type="text" name="observation" id="observation" class="col-9 ml-3"/>
+            </div>
+            <div class="col-sm-12 row">
+                <label name="nasc" class="col-2">Data de nascimento:</label><input type="Date" name="nasc" id="nasc" class="ml-3"/>
+            </div>
+        </div>
+
+        <button type="button" onclick="novo()" class="col-sm-2 w-25 p-3 mt-2">Novo</button>
+        <button type="button" onclick="salvar()" class="col-sm-2 w-25 p-3 mt-2">Salvar</button>
+        <button type="button" onclick="excluir()" class="col-sm-2 w-25 p-3 mt-2">Excluir</button>
+        <button type="button" onclick="cancelar()" class="col-sm-2 w-25 p-3 mt-2">Cancelar</button>
+        <select class="optionSelect col-sm-3 w-25 p-3 mt-2">
+        	<option value="http://localhost:8080/cadastrarFornecedor">Fornecedor</option>
+            <option value="http://localhost:8080/cadastrarAgendamentos">Agendamentos</option>
+            <option value="http://localhost:8080/cadastrarClient">Clientes</option>
+            <option value="http://localhost:8080/cadastrarMovimentacoes">Vendas</option>
+            <option value="http://localhost:8080/cadastrarProdutos">Produtos</option>
+        </select>
+    </form>
+    <script>
+    	$(".optionSelect").change(function(){
+            location.href = this.value;
+        });
+        function salvar(){
+            var json = {'code':$("#code").val(),'dataCadastro':$("#dataCadastro").val(),
+            'personType':$("#personType").val(),'FantasyName':$("#FantasyName").val(),
+            'corporateName':$("#corporateName").val(),'cep':$("#cep").val(),
+            'address':$("#address").val(),'complement':$("#complement").val(),
+            'telephone':$("#telephone").val(),'fax':$("#fax").val(),
+            'celphone':$("#celphone").val(),'contact':$("#contact").val(),
+            'emailContact':$("#emailContact").val(),'email':$("#email").val(),
+            'city':$("#city").val(),'district':$("#district").val(),
+            'filial':$("#filial").val(),'observation':$("#observation").val(),
+            'nasc':$("#nasc").val()
+            };
+            var response=$.ajax({
+            url: 'http://localhost:8080/fornecedor/cadastrar',
+            type: 'POST',
+            contentType:'application/json',
+            data: JSON.stringify(json),
+            dataType:'json',
+            });
+            setTimeout(function(){
+                if(response.status=='200'){
+                    alert('Salvo');
+                    console.log(response.responseText);
+                }else{
+                    alert('ocorreu um erro inesperado')
+                }
+            },200);
+        }
+        function novo(){
+            window.location.reload();
+        }
+        function excluir(){
+            var json = {'code':$("#code").val(),'dataCadastro':$("#dataCadastro").val(),
+            'personType':$("#personType").val(),'FantasyName':$("#FantasyName").val(),
+            'corporateName':$("#corporateName").val(),'cep':$("#cep").val(),
+            'address':$("#address").val(),'complement':$("#complement").val(),
+            'telephone':$("#telephone").val(),'fax':$("#fax").val(),
+            'celphone':$("#celphone").val(),'contact':$("#contact").val(),
+            'emailContact':$("#emailContact").val(),'email':$("#email").val(),
+            'city':$("#city").val(),'district':$("#district").val(),
+            'filial':$("#filial").val(),'observation':$("#observation").val(),
+            'nasc':$("#nasc").val()
+            };
+            var response=$.ajax({
+            url: 'http://localhost:8080/fornecedor/delete',
+            type: 'POST',
+            contentType:'application/json',
+            data: JSON.stringify(json),
+            dataType:'json',
+            });
+            setTimeout(function(){
+                if(response.status=='200'){
+                    alert('Excluido');
+                    console.log(response.responseText);
+                }else{
+                    alert('ocorreu um erro inesperado')
+                }
+            },200);
+        }
+        function cancelar(){
+        
+        }
+    </script>
+</body>
+</html>

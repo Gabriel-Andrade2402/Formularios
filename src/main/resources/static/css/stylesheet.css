@@ -1,0 +1,9 @@
+.form{
+    border-radius: 30px;
+    border: 1px black solid;
+    padding: 10px;
+}
+input{
+    border-radius:7px;
+    border: 1px grey solid;
+}

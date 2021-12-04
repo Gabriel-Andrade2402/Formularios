@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Cadastrar Vendas</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/stylesheet.css}" />
+<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+</head>
+<body>
+    <form class="container">
+        <div class="form">
+            <label class="col-sm-12 px-5 h6">Vendas</label>
+            <div class="col-sm-12 row">
+                <label name="client" class="col-2">Email cliente:</label><input type="text" name="client" id="client" class="col-9 ml-3"/>
+            </div>
+            <div class="col-sm-12 row" id="blocoProduct">
+                <label name="barcode" class="col-2 text-left">Código de barras do produto:</label><input type="text" name="barcode" id="barcode" class="col-8 ml-3 barcode"/>
+            </div>
+            <div class = "col-sm-5">
+                <img th:src="@{/imagens/63747.png}" id="buttonAdd" class = "w-25 rounded float-left" onclick="addProduct()"/>
+            </div>
+            <div class="col-sm-12 row">
+                <label name="payment" class="col-sm-2">Pagamento:</label>
+                <select name="payment" class="ml-5" id="payment">
+                    <option value="Cartao">Cartão</option>
+                    <option value="Pix" selected>Pix</option>
+                    <option value="Boleto" selected>Boleto</option>
+                </select>
+            </div> 
+            <div class="col-sm-12 row">
+                <label name="price" class="col-2">Total:</label><input type="text" name="price" id="price" class="ml-3"/>
+            </div>
+        </div>
+
+        <button type="button" onclick="novo()" class="col-sm-2 w-25 p-3 mt-2">Novo</button>
+        <button type="button" onclick="salvar()" class="col-sm-2 w-25 p-3 mt-2">Salvar</button>
+        <button type="button" onclick="excluir()" class="col-sm-2 w-25 p-3 mt-2">Excluir</button>
+        <button type="button" onclick="cancelar()" class="col-sm-2 w-25 p-3 mt-2">Cancelar</button>
+        <select class="optionSelect col-sm-3 w-25 p-3 mt-2">
+        	<option value="http://localhost:8080/cadastrarMovimentacoes">Vendas</option>
+            <option value="http://localhost:8080/cadastrarAgendamentos">Agendamentos</option>
+            <option value="http://localhost:8080/cadastrarClient">Clientes</option>
+            <option value="http://localhost:8080/cadastrarFornecedor">Fornecedor</option>            
+            <option value="http://localhost:8080/cadastrarProdutos">Produtos</option>
+        </select>
+    </form>
+    <script>
+    	$(".optionSelect").change(function(){
+            location.href = this.value;
+        });
+        function salvar(){
+            var json = {'client':{'email':$("#client").val()},'product':[],
+            'payment':$("#payment").val(),'price':$("#price").val()
+            };
+            $("#blocoProduct input").each(function(index,value){
+                json.product.push({'barcode':$(this).val()});
+            })
+            console.log(json);
+            console.log(JSON.stringify(json));
+            var response=$.ajax({
+            url: 'http://localhost:8080/movimentacoes/cadastrar',
+            type: 'POST',
+            contentType:'application/json',
+            data: JSON.stringify(json),
+            dataType:'json',
+            });
+            setTimeout(function(){
+                if(response.status=='200'){
+                    alert('Salvo');
+                    console.log(response.responseText);
+                }else{
+                    alert('ocorreu um erro inesperado')
+                }
+            },300);
+        }
+        function novo(){
+            window.location.reload();
+        }
+        function excluir(){
+            var json = {'client':{'email':$("#client").val()},'product':[],
+            'payment':$("#payment").val(),'price':$("#price").val()
+            };
+            var response=$.ajax({
+            url: 'http://localhost:8080/movimentacoes/delete',
+            type: 'POST',
+            contentType:'application/json',
+            data: JSON.stringify(json),
+            dataType:'json',
+            });
+            setTimeout(function(){
+                if(response.status=='200'){
+                    alert('Excluido');
+                    console.log(response.responseText);
+                }else{
+                    alert('ocorreu um erro inesperado')
+                }
+            },200);
+        }
+        function cancelar(){
+        
+        }
+        function addProduct(){
+            $("#blocoProduct").append('<label name="barcode" class="col-2 text-left"></label><input type="text" name="barcode" id="barcode" class="col-8 ml-3 barcode"/>');
+        }
+    </script>
+</body>
+</html>
