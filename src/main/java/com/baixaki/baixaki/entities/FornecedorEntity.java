@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,7 +43,7 @@ public class FornecedorEntity implements Serializable{
 	private String filial;
 	private String observation;
 	private Date nasc;
-	@OneToMany(mappedBy="provider")
+	@OneToMany(mappedBy="provider",fetch = FetchType.EAGER)
 	private List<ProdutoEntity> products = new ArrayList<>();
 	
 	public FornecedorEntity() {

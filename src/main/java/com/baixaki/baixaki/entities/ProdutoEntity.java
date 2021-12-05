@@ -6,15 +6,18 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
 import org.springframework.lang.Nullable;
 
 @Entity
@@ -29,10 +32,13 @@ public class ProdutoEntity implements Serializable{
 	private Long id;
 	private String name;
 	private String barcode;
+	@Lob 
+	@Type(type="org.hibernate.type.ImageType")
+	private byte[] baseImg;
 	private Double price;
 	private Integer quantity;
 	@Nullable
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 	  name = "tb_movimentacao_product", 
 	  joinColumns = @JoinColumn(name = "product_id"), 
@@ -46,7 +52,7 @@ public class ProdutoEntity implements Serializable{
 		
 	}
 
-	public ProdutoEntity(Long id,String barcode,String name, Double price, Integer quantity, FornecedorEntity provider,Set<MovimentacaoEntity> SetMov) {
+	public ProdutoEntity(Long id,String barcode,byte[] baseImg,String name, Double price, Integer quantity, FornecedorEntity provider,Set<MovimentacaoEntity> SetMov) {
 		this.id = id;
 		this.barcode = barcode;
 		this.name = name;
@@ -54,6 +60,7 @@ public class ProdutoEntity implements Serializable{
 		this.quantity = quantity;
 		this.provider = provider;
 		this.SetMovimentacoes = SetMov;
+		this.baseImg = baseImg;
 	}
 
 	public String getName() {
@@ -114,9 +121,17 @@ public class ProdutoEntity implements Serializable{
 		this.barcode = barcode;
 	}
 
+	public byte[] getBaseImg() {
+		return baseImg;
+	}
+
+	public void setBaseImg(byte[] baseImg) {
+		this.baseImg = baseImg;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(barcode, id, SetMovimentacoes, name, price, provider, quantity);
+		return Objects.hash(SetMovimentacoes, barcode, baseImg, id, name, price, provider, quantity);
 	}
 
 	@Override
@@ -128,24 +143,17 @@ public class ProdutoEntity implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		ProdutoEntity other = (ProdutoEntity) obj;
-		return Objects.equals(barcode, other.barcode) && Objects.equals(id, other.id)
-				&& Objects.equals(SetMovimentacoes, other.SetMovimentacoes) && Objects.equals(name, other.name)
-				&& Objects.equals(price, other.price) && Objects.equals(provider, other.provider)
-				&& Objects.equals(quantity, other.quantity);
+		return Objects.equals(SetMovimentacoes, other.SetMovimentacoes) && Objects.equals(barcode, other.barcode)
+				&& Objects.equals(baseImg, other.baseImg) && Objects.equals(id, other.id)
+				&& Objects.equals(name, other.name) && Objects.equals(price, other.price)
+				&& Objects.equals(provider, other.provider) && Objects.equals(quantity, other.quantity);
 	}
 
 	@Override
 	public String toString() {
-		return "ProdutoEntity [id=" + id + ", name=" + name + ", barcode=" + barcode + ", price=" + price
-				+ ", quantity=" + quantity + ", SetMovimentacoes=" + SetMovimentacoes + ", provider=" + provider
-				+ "]";
+		return "ProdutoEntity [id=" + id + ", name=" + name + ", barcode=" + barcode + ", baseImg=" + baseImg
+				+ ", price=" + price + ", quantity=" + quantity + ", SetMovimentacoes=" + SetMovimentacoes
+				+ ", provider=" + provider + "]";
 	}
 
-	
-
-	
-
-	
-	
-	
 }

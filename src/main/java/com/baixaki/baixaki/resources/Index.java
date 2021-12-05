@@ -1,7 +1,9 @@
 package com.baixaki.baixaki.resources;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -27,5 +29,9 @@ public class Index {
 	@GetMapping(value="/cadastrarMovimentacoes")
 	public ModelAndView cadastrarMovimentacoes(){
 		   return new ModelAndView("cadastrarMovimentacoes");
+	}
+	@GetMapping(value="/buscarProduto")
+	public ModelAndView buscarProduto(@RequestParam Integer id){
+		   return new ModelAndView("buscarProduto");
 	}
 }

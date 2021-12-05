@@ -23,6 +23,9 @@
             <div class="col-sm-12 row">
                 <label name="price" class="col-2">Preço:</label><input type="number" name="price" id="price" class="ml-3"/>
             </div>
+            <div class="col-sm-12 row">
+                <label name="img" class="col-2">Imagem:</label><input type="file" name="img" id="img" class="ml-3"/>
+            </div>
         </div>
 
         <button type="button" onclick="novo()" class="col-sm-2 w-25 p-3 mt-2">Novo</button>
@@ -38,13 +41,27 @@
         </select>
     </form>
     <script>
+    	var baseImg = [];
+    	$("#img").change(function(event){
+            let reader = new FileReader();
+            let file = event.target.files[0];
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                var base64 = reader.result.split(",");
+                baseImg[0]=base64[0];
+                baseImg[1]=base64[1];
+            };
+        });
     	$(".optionSelect").change(function(){
             location.href = this.value;
         });
         function salvar(){
-            var json = {'barcode':$("#barcode").val(),'name':$("#name").val(),
+            var json = {'barcode':$("#barcode").val(),'baseImg':btoa(baseImg[1]),'name':$("#name").val(),
             'price':$("#price").val(),'provider':{'corporateName':$("#provider").val()}
             };
+            // baseImg.forEach(function(element, index, array){
+            //     json.baseImg.push(element);
+            // });
             var response=$.ajax({
             url: 'http://localhost:8080/produto/cadastrar',
             type: 'POST',
@@ -59,7 +76,7 @@
                 }else{
                     alert('ocorreu um erro inesperado')
                 }
-            },200);
+            },300);
         }
         function novo(){
             window.location.reload();

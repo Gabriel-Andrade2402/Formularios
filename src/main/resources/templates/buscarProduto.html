@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Buscar produto</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/stylesheet.css}" />
+<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+</head>
+<body>
+    <form class="container">
+        <div class="form">
+            <label class="col-12 px-5 h6">Produto</label>
+            <div class="col-sm-6">
+                <img id="imgProduct"/>
+            </div>
+            <div class="col-sm-6">
+                <label name="name" class="col-2">Nome:</label><input type="text" name="name" id="name" class="col-9 ml-3"/>
+            </div>
+            <div class="col-12 row">
+                <label name="barcode" class="col-2">Código de barras:</label><input type="text" name="barcode" id="barcode" class="col-9 ml-3"/>
+            </div>
+        </div>
+    </form>
+    <script>
+        $().ready(function(){
+			var json = {}
+            var url = window.location.href
+            var urlInicial = url.split("?");
+            var valor = urlInicial[1].split("=")[1];
+            var urlRequest = 'http://localhost:8080/produto/buscarPorId/'+valor;
+            var response=$.ajax({
+            url: urlRequest,
+            dataType:'json',
+            type: 'GET',
+            });
+            setTimeout(function(){
+                if(response.status=='200'){
+                    console.log(response);
+                }else{
+                    alert('ocorreu um erro inesperado')
+                }
+            },5000);
+        });
+    </script>
+</body>
+</html>

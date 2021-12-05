@@ -39,4 +39,7 @@ public class ProdutoService {
 	public List<ProdutoEntity> findAll(){
 		return repository.findAll();
 	}
+	public ProdutoEntity findById(Long id) {
+		return repository.findById(id).get();
+	}
 }
